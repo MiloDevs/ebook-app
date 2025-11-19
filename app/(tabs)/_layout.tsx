@@ -1,10 +1,10 @@
 import { HapticTab } from "@/components/haptic-tab";
 import createIconSetFromFontello from "@expo/vector-icons/createIconSetFromFontello";
-import { useFonts } from "expo-font";
 import { Tabs } from "expo-router";
 import React from "react";
 import fontelloConfig from "../../assets/icons/config.json";
 import { Iconify } from "react-native-iconify/native";
+import { COLORS, FONTS } from "@/constants/colors";
 
 const Icon = createIconSetFromFontello(
   fontelloConfig,
@@ -13,25 +13,21 @@ const Icon = createIconSetFromFontello(
 );
 
 export default function TabLayout() {
-  const [fontsLoaded] = useFonts({
-    "home-icons": require("../../assets/fonts/home-icons.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarButton: HapticTab,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
+          tabBarLabelStyle: {
+            ...FONTS.small,
+            ...FONTS.medium,
+          },
+          tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: ({ color, focused }) => (
             <Icon
               name={`home-${focused ? "fill" : "line"}`}
@@ -46,6 +42,11 @@ export default function TabLayout() {
         name="search"
         options={{
           title: "Search",
+          tabBarLabelStyle: {
+            ...FONTS.small,
+            ...FONTS.medium,
+          },
+          tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: ({ color, focused }) => (
             <Iconify
               size={20}
@@ -59,6 +60,11 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "settings",
+          tabBarLabelStyle: {
+            ...FONTS.small,
+            ...FONTS.medium,
+          },
+          tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: ({ color, focused }) => (
             <Iconify
               size={20}

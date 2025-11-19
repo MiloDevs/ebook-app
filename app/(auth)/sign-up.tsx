@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { View, TextInput, Button, Text } from "react-native";
+import { View, TextInput, Text } from "react-native";
 import { authClient } from "@/lib/auth-client";
 import { Link } from "expo-router";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Banner } from "@/components/ui/banner";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -9,7 +13,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [signUpError, setSignUpError] = useState("");
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     const { data, error } = await authClient.signUp.email({
       email,
       password,
@@ -22,24 +26,49 @@ export default function SignUp() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 28,
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      {signUpError && <Text>{signUpError}</Text>}
-      <TextInput placeholder="Name" value={name} onChangeText={setName} />
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Sign up" onPress={handleLogin} />
-      <Link href={"/(auth)/sign-in"}>Sign in</Link>
-    </View>
+    <SafeAreaView className="flex flex-1 p-6 justify-between">
+      <Text className="font-hepta_semibold text-h3 mb-12">
+        Join thousands of book enthusiasts.
+      </Text>
+      <View className="flex flex-1">
+        <Text className="font-hepta_semibold text-h3 mb-8">Sign up</Text>
+        {signUpError && (
+          <Banner variant="error" className="mb-8" title={signUpError} />
+        )}
+        <View className="flex flex-col gap-6 mb-12">
+          <Input
+            title="Username"
+            placeholder="What may we call you?"
+            value={name}
+            onChangeText={setName}
+          />
+          <Input
+            title="Email"
+            placeholder="Email Address"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Input
+            placeholder="A super strong password"
+            title="Password"
+            value={password}
+            secureTextEntry
+            onChangeText={setPassword}
+          />
+          <Input
+            placeholder="Make sure it’s the right one"
+            title="Confirm Password"
+            value={password}
+            secureTextEntry
+            onChangeText={setPassword}
+          />
+        </View>
+        <Button onPress={handleSignup} title="Continue"></Button>
+      </View>
+      <Link className="font-hepta_regular text-center" href={"/(auth)/sign-in"}>
+        Already have an account?{" "}
+        <Text className="font-hepta_semibold">Sign in</Text>
+      </Link>
+    </SafeAreaView>
   );
 }
