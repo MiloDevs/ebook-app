@@ -1,36 +1,50 @@
 import { Image } from "expo-image";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import { HelloWave } from "@/components/hello-wave";
-import ParallaxScrollView from "@/components/parallax-scroll-view";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Link } from "expo-router";
+import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { authClient } from "@/lib/auth-client";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Iconify from "react-native-iconify/native";
+import { COLORS } from "@/constants/colors";
+import { Input } from "@/components/ui/input";
+import { BooksSection } from "@/components/ui/booksSection";
+import { bookData } from "@/constants/bookData";
 
 export default function HomeScreen() {
   const { data: session } = authClient.useSession();
   return (
-    <View>
-      <Text>Home Page</Text>
-    </View>
+    <SafeAreaView className="p-6 bg-gray_0 flex-1">
+      <View className="flex flex-row items-center mb-8 justify-between">
+        <View>
+          <Text className="font-hepta_regular text-h4">Hello there, </Text>
+          <Text className="font-hepta_semibold text-h4">
+            {session?.user.name}
+          </Text>
+        </View>
+        <View className="p-4 rounded-full bg-gray_25">
+          <Iconify
+            icon="mingcute:user-3-fill"
+            size={24}
+            color={COLORS.gray_50}
+          />
+        </View>
+      </View>
+      <Input
+        isSearch={true}
+        className="py-2.5 border-gray_25 mb-5"
+        placeholder="Search books, authors, genres.."
+      />
+      <ScrollView>
+        <View className="flex flex-col gap-4">
+          <BooksSection
+            title={"More of What You love "}
+            books={bookData.slice(0, 3)}
+          />
+          <BooksSection title={"Trending Now"} books={bookData.slice(3, 6)} />
+          <BooksSection
+            title={"New on the Block"}
+            books={bookData.slice(3, 6)}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});

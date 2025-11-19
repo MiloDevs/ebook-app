@@ -29,6 +29,7 @@ module.exports = {
         h4: "21px",
         h5: "12px",
         p: "16px",
+        small: "12px",
       },
       borderWidth: {
         input: "1.5px",
