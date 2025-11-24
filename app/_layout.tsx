@@ -1,7 +1,9 @@
 import { Stack } from "expo-router";
 import { authClient } from "@/lib/auth-client";
 import { useFonts } from "expo-font";
+import { ReaderProvider } from "@epubjs-react-native/core";
 import "../global.css";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // @@iconify-code-gen
 
@@ -26,13 +28,18 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Protected guard={session?.user ? false : true}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      </Stack.Protected>
-      <Stack.Protected guard={session?.user ? true : false}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack.Protected>
-    </Stack>
+    <GestureHandlerRootView>
+      <ReaderProvider>
+        <Stack>
+          <Stack.Protected guard={session?.user ? false : true}>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={session?.user ? true : false}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="reader" options={{ headerShown: false }} />
+          </Stack.Protected>
+        </Stack>
+      </ReaderProvider>
+    </GestureHandlerRootView>
   );
 }

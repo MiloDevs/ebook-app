@@ -11,7 +11,7 @@ import { bookData } from "@/constants/bookData";
 export default function HomeScreen() {
   const { data: session } = authClient.useSession();
   return (
-    <SafeAreaView className="p-6 bg-gray_0 flex-1">
+    <SafeAreaView className="p-6 pb-0 bg-gray_0 flex-1">
       <View className="flex flex-row items-center mb-8 justify-between">
         <View>
           <Text className="font-hepta_regular text-h4">Hello there, </Text>
@@ -33,17 +33,12 @@ export default function HomeScreen() {
         placeholder="Search books, authors, genres.."
       />
       <ScrollView>
-        <View className="flex flex-col gap-4">
-          <BooksSection
-            title={"More of What You love "}
-            books={bookData.slice(0, 3)}
-          />
-          <BooksSection title={"Trending Now"} books={bookData.slice(3, 6)} />
-          <BooksSection
-            title={"New on the Block"}
-            books={bookData.slice(3, 6)}
-          />
-        </View>
+        <BooksSection
+          title={"More of What You love "}
+          books={bookData.slice(0, 3)}
+        />
+        <BooksSection title={"Trending Now"} books={bookData.slice(3, 6)} />
+        <BooksSection title={"New on the Block"} books={bookData.slice(3, 6)} />
       </ScrollView>
     </SafeAreaView>
   );

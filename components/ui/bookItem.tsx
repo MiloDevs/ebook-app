@@ -1,10 +1,15 @@
 import { Book } from "@/types/books";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { TouchableOpacity, Text, View } from "react-native";
 
 export const BookItem = ({ title, author, imageUrl }: Book) => {
+  const router = useRouter();
   return (
-    <TouchableOpacity className="w-full max-w-[120px] m-0.5">
+    <TouchableOpacity
+      onPress={() => router.push("/reader")}
+      className="w-full max-w-[120px] m-0.5"
+    >
       <View className="h-[168px] bg-gray_25/20 rounded-lg overflow-clip">
         <Image
           source={{
