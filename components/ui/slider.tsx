@@ -61,7 +61,7 @@ const CustomVerticalSlider = ({
       {...panResponder.panHandlers}
       ref={containerRef}
       onLayout={handleLayout}
-      className="h-60 rounded-full justify-end relative border border-gray_25/20 bg-gray_0 w-20 overflow-hidden"
+      className="h-60 rounded-full justify-end relative border border-gray_25 bg-gray_0 w-20 overflow-hidden"
     >
       <View
         className="w-full bg-gray_25"
