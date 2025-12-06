@@ -215,9 +215,7 @@ export default function ReaderPage() {
     ({ item }: { item: FlatChapter }) => {
       const { isSubChapter, mainChapterLabel } = item;
       const indentationClass = isSubChapter ? "ml-6" : "ml-0";
-      const fontClass = isSubChapter
-        ? "font-hepta_regular"
-        : "font-hepta_semibold";
+      const fontClass = isSubChapter ? "font-hepta_light" : "font-hepta_medium";
       const paddingClass = isSubChapter ? "py-3" : "py-4";
 
       return (

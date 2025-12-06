@@ -40,7 +40,7 @@ const App: React.FC = (children) => {
           <Stack.Protected guard={state?.user.id ? true : false}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
-              name="reader/[fileUrl]"
+              name="reader/index"
               options={{ headerShown: false }}
             />
           </Stack.Protected>

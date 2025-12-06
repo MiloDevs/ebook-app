@@ -4,7 +4,7 @@ import * as SecureStore from "expo-secure-store";
 
 export const authClient = createAuthClient({
   // baseURL: "https://ebook-app-backend-c3jr.onrender.com",
-  baseURL: "http://localhost:3000",
+  baseURL: "http://100.83.233.106:3000",
   plugins: [
     expoClient({
       scheme: "ebook-app",

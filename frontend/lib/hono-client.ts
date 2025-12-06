@@ -1,6 +1,4 @@
 import { hc } from "hono/client";
-import { AppType } from "../../ebook-app-backend/src/index";
+import type { AppType } from "../../backend/src/index.ts";
 
-const client = hc<AppType>("http://localhost:3001/");
-
-export { client as honoclient };
+export const apiClient = hc<AppType>("http://100.83.233.106:3001/");

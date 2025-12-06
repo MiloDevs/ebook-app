@@ -109,7 +109,12 @@ export const Button = ({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={spinnerColor} />
+        <>
+          <ActivityIndicator className="mr-2" color={spinnerColor} />
+          {children
+            ? children
+            : title && <Text className={cn(textClass)}>{title}</Text>}
+        </>
       ) : (
         <>
           {prefixIcon && (

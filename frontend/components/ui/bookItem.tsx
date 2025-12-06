@@ -7,7 +7,9 @@ export const BookItem = ({ title, author, imageUrl, fileUrl }: Book) => {
   const router = useRouter();
   return (
     <TouchableOpacity
-      onPress={() => router.push(`/reader/${encodeURIComponent(fileUrl)}`)}
+      onPress={() =>
+        router.push(`/reader?fileUrl=${encodeURIComponent(fileUrl)}`)
+      }
       className="w-full max-w-[120px] m-0.5"
     >
       <View className="h-[168px] bg-gray_25/20 rounded-xl overflow-hidden">
