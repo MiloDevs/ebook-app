@@ -1,0 +1,150 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  libraries     Library[]
+
+  @@unique([email])
+  @@index([id])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([id])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([id])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@index([id])
+  @@map("verification")
+}
+
+model Genre {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @unique
+  description String
+  books       Book[]
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([id, title])
+  @@map("genre")
+}
+
+model Book {
+  id           String        @id @default(uuid()) @db.Uuid
+  title        String
+  image_url    String
+  file_url     String
+  description  String
+  best_selling Boolean       @default(false)
+  recommended  Boolean       @default(false)
+  rating       Float         @default(1)
+  genres       Genre[]
+  released_at  DateTime      @db.Date
+  created_at   DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime      @default(now()) @updatedAt @db.Timestamptz(6)
+  author       Author?       @relation(fields: [author_id], references: [id])
+  author_id    String?       @db.Uuid
+  libraries    LibraryBook[]
+
+  @@index([id, title, author_id, rating, recommended, released_at])
+  @@map("book")
+}
+
+model Author {
+  id          String   @id @default(uuid()) @db.Uuid
+  full_name   String
+  first_name  String
+  last_name   String
+  description String?
+  books       Book[]
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([id, first_name, last_name, full_name])
+  @@map("author")
+}
+
+model Library {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  is_default  Boolean       @default(false)
+  user_id     String
+  user        User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  books       LibraryBook[]
+  created_at  DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime      @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@unique([user_id, name])
+  @@index([id, user_id])
+  @@map("library")
+}
+
+model LibraryBook {
+  id         String   @id @default(uuid()) @db.Uuid
+  library_id String   @db.Uuid
+  book_id    String   @db.Uuid
+  library    Library  @relation(fields: [library_id], references: [id], onDelete: Cascade)
+  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([library_id, book_id])
+  @@index([library_id, book_id])
+  @@map("library_book")
+}
