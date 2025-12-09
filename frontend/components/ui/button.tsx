@@ -10,7 +10,7 @@ import Iconify from "react-native-iconify/native";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "flex flex-row items-center justify-center transition-opacity active:opacity-70",
+  "flex flex-row items-center justify-center border-none transition-opacity active:opacity-70",
   {
     variants: {
       variant: {
@@ -19,6 +19,7 @@ const buttonVariants = cva(
         destructive: "bg-red-500 text-white",
         outline: "bg-transparent border border-gray-300 text-gray-700",
         ghost: "bg-transparent",
+        alt: "bg-gray_25 text-gray_75",
       },
       size: {
         default: "h-12 px-5 py-3",
@@ -37,7 +38,7 @@ const buttonVariants = cva(
       size: "default",
       rounded: "full",
     },
-  },
+  }
 );
 
 const textVariants = cva("font-hepta_medium text-base", {
@@ -48,6 +49,7 @@ const textVariants = cva("font-hepta_medium text-base", {
       destructive: "text-white",
       outline: "text-gray-700",
       ghost: "text-primary",
+      alt: "text-gray_75",
     },
     size: {
       default: "text-base",
@@ -63,8 +65,7 @@ const textVariants = cva("font-hepta_medium text-base", {
 });
 
 interface ButtonProps
-  extends TouchableOpacityProps,
-    VariantProps<typeof buttonVariants> {
+  extends TouchableOpacityProps, VariantProps<typeof buttonVariants> {
   title?: string;
   prefixIcon?: string;
   suffixIcon?: string;
@@ -88,7 +89,10 @@ export const Button = ({
   const textClass = textVariants({ variant, size });
 
   const spinnerColor =
-    variant === "secondary" || variant === "outline" || variant === "ghost"
+    variant === "secondary" ||
+    variant === "outline" ||
+    variant === "ghost" ||
+    variant === "alt"
       ? "black"
       : "white";
 
@@ -102,7 +106,7 @@ export const Button = ({
         buttonClass,
         loading && "opacity-60",
         size === "icon" ? "p-0" : "",
-        className,
+        className
       )}
       onPress={onPress}
       disabled={loading || props.disabled}

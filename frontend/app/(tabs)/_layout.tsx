@@ -9,7 +9,7 @@ import { COLORS, FONTS } from "@/constants/colors";
 const Icon = createIconSetFromFontello(
   fontelloConfig,
   "home-icons",
-  "home-icons.ttf",
+  "home-icons.ttf"
 );
 
 export default function TabLayout() {
@@ -52,6 +52,24 @@ export default function TabLayout() {
               size={20}
               color={color}
               icon={`mingcute:search-${focused ? "fill" : "line"}`}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="library"
+        options={{
+          title: "Library",
+          tabBarLabelStyle: {
+            ...FONTS.small,
+            ...FONTS.medium,
+          },
+          tabBarActiveTintColor: COLORS.primary,
+          tabBarIcon: ({ color, focused }) => (
+            <Iconify
+              size={20}
+              color={color}
+              icon={`mingcute:bookmark-${focused ? "fill" : "line"}`}
             />
           ),
         }}

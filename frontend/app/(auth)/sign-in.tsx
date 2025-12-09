@@ -11,25 +11,34 @@ import { useAppContext } from "@/hooks/app-context";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const { setUser } = useAppContext();
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [signInError, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async () => {
-    const { data, error } = await authClient.signIn.email({
-      email,
-      password,
-    });
-    if (error) {
-      console.log(error);
-      setError(error.message || "");
-    } else {
-      await setUser({
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
+    setLoading(true);
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
       });
-      router.push("/(tabs)");
+      if (error) {
+        console.log(error);
+        setError(error.message || "");
+      } else {
+        await setUser({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+        });
+        router.push("/(tabs)");
+      }
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +67,11 @@ export default function SignIn() {
             onChangeText={setPassword}
           />
         </View>
-        <Button onPress={handleLogin} title="Continue"></Button>
+        <Button
+          loading={loading}
+          onPress={handleLogin}
+          title="Continue"
+        ></Button>
       </View>
       <Link className="font-hepta_regular text-center" href={"/(auth)/sign-up"}>
         Don&apos;t have an account?{" "}

@@ -4,7 +4,10 @@ import { useFonts } from "expo-font";
 import { ReaderProvider } from "@epubjs-react-native/core";
 import "../global.css";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { AppProvider, useAppContext } from "@/hooks/app-context";
+import { ApiProvider } from "@/providers/ApiProvider";
+import { ToastProvider } from "react-native-toast-notifications";
 
 // @@iconify-code-gen
 
@@ -16,7 +19,7 @@ const App: React.FC = (children) => {
   const { data: session, isPending } = authClient.useSession();
   const { isLoading, state, setUser } = useAppContext();
 
-  if (isLoading) {
+  if (isPending) {
     return null;
   }
 
@@ -32,20 +35,25 @@ const App: React.FC = (children) => {
 
   return (
     <GestureHandlerRootView>
-      <ReaderProvider>
-        <Stack>
-          <Stack.Protected guard={!state?.user.id ? true : false}>
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          </Stack.Protected>
-          <Stack.Protected guard={state?.user.id ? true : false}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="reader/index"
-              options={{ headerShown: false }}
-            />
-          </Stack.Protected>
-        </Stack>
-      </ReaderProvider>
+      <BottomSheetModalProvider>
+        <ToastProvider>
+          <ReaderProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Protected
+                guard={!state?.user.id || !session?.user.id ? true : false}
+              >
+                <Stack.Screen name="(auth)" />
+              </Stack.Protected>
+              <Stack.Protected
+                guard={state?.user.id || session?.user.id ? true : false}
+              >
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="reader/index" />
+              </Stack.Protected>
+            </Stack>
+          </ReaderProvider>
+        </ToastProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 };
@@ -65,8 +73,10 @@ export default function RootLayout() {
   }
 
   return (
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <ApiProvider>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </ApiProvider>
   );
 }

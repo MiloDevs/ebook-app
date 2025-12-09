@@ -27,8 +27,8 @@ export interface BookMetadata {
   title: string;
   author: string;
   tableOfContents: { label: string; href: string }[];
-  localCoverUri: string | null;
-  filePath: string;
+  imageUrl: string | null;
+  fileUrl: string;
   fileSize: number;
   lastModified: number;
   lastAccessed: number;
