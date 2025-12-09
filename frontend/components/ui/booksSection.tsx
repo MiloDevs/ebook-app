@@ -15,7 +15,7 @@ interface BooksSectionProps {
   onEndReachedThreshold?: number;
   ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
   ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null;
-  refreshControl?: React.ReactElement;
+  refreshControl?: React.ReactElement<any>;
 }
 
 export const BooksSection = ({
@@ -61,12 +61,16 @@ export const BooksSection = ({
         keyExtractor={(item) => item.title}
         // Infinite scroll props
         onEndReached={infiniteScroll ? onEndReached : undefined}
-        onEndReachedThreshold={infiniteScroll ? onEndReachedThreshold : undefined}
+        onEndReachedThreshold={
+          infiniteScroll ? onEndReachedThreshold : undefined
+        }
         ListHeaderComponent={infiniteScroll ? ListHeaderComponent : undefined}
         ListFooterComponent={infiniteScroll ? ListFooterComponent : undefined}
         refreshControl={infiniteScroll ? refreshControl : undefined}
         showsVerticalScrollIndicator={infiniteScroll}
-        contentContainerStyle={infiniteScroll ? { paddingBottom: 20 } : undefined}
+        contentContainerStyle={
+          infiniteScroll ? { paddingBottom: 20 } : undefined
+        }
       />
     </View>
   );

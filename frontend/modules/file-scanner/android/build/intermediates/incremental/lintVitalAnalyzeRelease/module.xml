@@ -1,6 +1,6 @@
 <lint-module
     format="1"
-    dir="/drive/school/ebook-app/modules/file-scanner/android"
+    dir="/drive/school/ebook-app/frontend/modules/file-scanner/android"
     name=":file-scanner"
     type="LIBRARY"
     maven="expo.modules.filescanner:file-scanner:0.7.6"

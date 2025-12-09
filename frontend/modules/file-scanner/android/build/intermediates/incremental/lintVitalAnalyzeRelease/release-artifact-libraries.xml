@@ -1,9 +1,9 @@
 <libraries>
   <library
       name=":@@:expo-modules-core::release"
-      jars="/home/milo/.gradle/caches/8.14.3/transforms/a9e31f7a6587ede23314994732f9ddc5/transformed/out/jars/classes.jar:/home/milo/.gradle/caches/8.14.3/transforms/a9e31f7a6587ede23314994732f9ddc5/transformed/out/jars/libs/R.jar"
-      resolved="host.exp.exponent:expo-modules-core:3.0.26"
-      folder="/home/milo/.gradle/caches/8.14.3/transforms/a9e31f7a6587ede23314994732f9ddc5/transformed/out"
+      jars="/home/milo/.gradle/caches/8.14.3/transforms/535f282b6d9625a2bf817493231bde14/transformed/out/jars/classes.jar:/home/milo/.gradle/caches/8.14.3/transforms/535f282b6d9625a2bf817493231bde14/transformed/out/jars/libs/R.jar"
+      resolved="host.exp.exponent:expo-modules-core:3.0.28"
+      folder="/home/milo/.gradle/caches/8.14.3/transforms/535f282b6d9625a2bf817493231bde14/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

@@ -1,5 +1,4 @@
 import { BooksSection } from "@/components/ui/booksSection";
-import { BookItem } from "@/components/ui/bookItem";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { COLORS } from "@/constants/colors";
@@ -9,7 +8,7 @@ import { Book } from "@/types/api";
 import { ErrorBoundary, EmptyState } from "@/components/ui/error-boundary";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
-import { Text, View, ActivityIndicator, FlatList } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import Iconify from "react-native-iconify/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -100,16 +99,6 @@ export default function SearchScreen() {
     ) {
       setPage((prev) => prev + 1);
     }
-  };
-
-  // Render function for each book item in FlatList
-  const renderBookItem = ({ item, index }: { item: Book; index: number }) => {
-    const displayBook = convertApiBookToDisplayBook(item);
-    return (
-      <View className="mb-4" style={{ flex: 1, marginHorizontal: 4 }}>
-        <BookItem {...displayBook} />
-      </View>
-    );
   };
 
   // Footer component for loading indicator
@@ -266,16 +255,13 @@ export default function SearchScreen() {
                 </Text>
               </View>
             ) : allResults && allResults.length > 0 ? (
-              <FlatList
-                key="search-results-grid"
-                data={allResults}
-                keyExtractor={(item) => item.id}
-                renderItem={renderBookItem}
-                numColumns={3}
-                ListHeaderComponent={renderHeader}
-                ListFooterComponent={renderFooter}
+              <BooksSection
+                books={allResults.map(convertApiBookToDisplayBook)}
+                infiniteScroll={true}
                 onEndReached={loadMore}
                 onEndReachedThreshold={0.1}
+                ListHeaderComponent={renderHeader}
+                ListFooterComponent={renderFooter}
                 refreshControl={
                   <RefreshControl
                     refreshing={searchResultsPaginated.isLoading && page === 1}
@@ -286,12 +272,6 @@ export default function SearchScreen() {
                     }}
                   />
                 }
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 20 }}
-                columnWrapperStyle={{ 
-                  justifyContent: "flex-start",
-                  paddingHorizontal: 4 
-                }}
               />
             ) : (
               <EmptyState
