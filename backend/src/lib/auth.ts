@@ -16,7 +16,9 @@ export function createAuth(prisma: PrismaClient) {
       ? process.env.TRUSTED_ORIGINS.split(",")
       : [],
     advanced: {
-      disableOriginCheck: process.env.NODE_ENV != "production" || process.env.DISABLE_ORIGIN_CHECK,
+      disableOriginCheck:
+        process.env.NODE_ENV != "production" ||
+        !!process.env.DISABLE_ORIGIN_CHECK,
     },
     debug: true,
   });
