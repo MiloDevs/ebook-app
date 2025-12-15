@@ -35,7 +35,7 @@ app.use(logger());
 app.use(
   "*",
   cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(",") || "*",
+    origin: process.env.TRUSTED_ORIGINS?.split(",") || "*",
     allowHeaders: ["Content-Type", "Authorization", "Cookie"],
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length", "Set-Cookie"],

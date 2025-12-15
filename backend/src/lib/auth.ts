@@ -3,15 +3,9 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { expo } from "@better-auth/expo";
 import type { PrismaClient } from "../generated/client.js";
 
-/**
- * Function to create the betterAuth instance, guaranteeing it receives the
- * initialized Prisma client.
- * @param prisma The initialized PrismaClient instance.
- */
 export function createAuth(prisma: PrismaClient) {
   return betterAuth({
     plugins: [expo()],
-    // Pass the guaranteed, initialized 'prisma' client here:
     database: prismaAdapter(prisma, {
       provider: "postgresql",
     }),
@@ -22,7 +16,7 @@ export function createAuth(prisma: PrismaClient) {
       ? process.env.TRUSTED_ORIGINS.split(",")
       : [],
     advanced: {
-      disableOriginCheck: process.env.NODE_ENV != "production",
+      disableOriginCheck: process.env.NODE_ENV != "production" || process.env.DISABLE_ORIGIN_CHECK,
     },
     debug: true,
   });
